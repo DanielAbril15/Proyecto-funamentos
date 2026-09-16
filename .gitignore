@@ -1,0 +1,10 @@
+# Carpetas de compilación
+bin/
+*.class
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración local opcionales de Eclipse
+.settings/
