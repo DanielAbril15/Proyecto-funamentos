@@ -17,40 +17,40 @@ public class GenerateInfoFiles {
     private static final String[] TIPOS_DOCUMENTO = { "CC", "CC", "CC", "TI", "CE" };
 
     private static final String[] NOMBRES = {
-        "Carlos", "Maria", "Juan", "Laura", "Andres",
-        "Sofia", "David", "Valentina", "Daniel", "Camilo",
-        "Paula", "Felipe", "Isabella", "Mateo", "Diana",
-        "Alejandro", "Mariana", "Sebastian", "Natalia", "Santiago"
+            "Carlos", "Maria", "Juan", "Laura", "Andres",
+            "Sofia", "David", "Valentina", "Daniel", "Camilo",
+            "Paula", "Felipe", "Isabella", "Mateo", "Diana",
+            "Alejandro", "Mariana", "Sebastian", "Natalia", "Santiago"
     };
 
     private static final String[] APELLIDOS = {
-        "Gomez", "Rodriguez", "Martinez", "Lopez", "Perez",
-        "Gonzalez", "Hernandez", "Sanchez", "Ramirez", "Torres",
-        "Diaz", "Vargas", "Castro", "Morales", "Romero"
+            "Gomez", "Rodriguez", "Martinez", "Lopez", "Perez",
+            "Gonzalez", "Hernandez", "Sanchez", "Ramirez", "Torres",
+            "Diaz", "Vargas", "Castro", "Morales", "Romero"
     };
 
     // Lista base de productos
     private static final String[][] PRODUCTOS_BASE = {
-        { "Arroz Diana 1kg", "4500.0" },
-        { "Aceite Gourmet 1L", "14500.0" },
-        { "Leche Entera Colanta 1L", "4200.0" },
-        { "Azucar Manuelita 1kg", "3800.0" },
-        { "Cafe Sello Rojo 500g", "16000.0" },
-        { "Pasta Doria 500g", "3200.0" },
-        { "Huevos AA x30", "18000.0" },
-        { "Pan Tajado Bimbo", "6500.0" },
-        { "Lentejas Diana 500g", "4000.0" },
-        { "Atun Van Camps 160g", "7500.0" },
-        { "Jabon Rey Barra", "2500.0" },
-        { "Detergente Ariel 1kg", "12500.0" },
-        { "Crema Dental Colgate 100ml", "5800.0" },
-        { "Papel Higienico Familia x4", "8900.0" },
-        { "Shampoo Sedal 350ml", "11000.0" },
-        { "Galletas Noel 200g", "4200.0" },
-        { "Chocolate Corona 500g", "7800.0" },
-        { "Sal Refisal 1kg", "2100.0" },
-        { "Frijol Bola Roja 500g", "6200.0" },
-        { "Harina PAN 1kg", "4800.0" }
+            { "Arroz Diana 1kg", "4500.0" },
+            { "Aceite Gourmet 1L", "14500.0" },
+            { "Leche Entera Colanta 1L", "4200.0" },
+            { "Azucar Manuelita 1kg", "3800.0" },
+            { "Cafe Sello Rojo 500g", "16000.0" },
+            { "Pasta Doria 500g", "3200.0" },
+            { "Huevos AA x30", "18000.0" },
+            { "Pan Tajado Bimbo", "6500.0" },
+            { "Lentejas Diana 500g", "4000.0" },
+            { "Atun Van Camps 160g", "7500.0" },
+            { "Jabon Rey Barra", "2500.0" },
+            { "Detergente Ariel 1kg", "12500.0" },
+            { "Crema Dental Colgate 100ml", "5800.0" },
+            { "Papel Higienico Familia x4", "8900.0" },
+            { "Shampoo Sedal 350ml", "11000.0" },
+            { "Galletas Noel 200g", "4200.0" },
+            { "Chocolate Corona 500g", "7800.0" },
+            { "Sal Refisal 1kg", "2100.0" },
+            { "Frijol Bola Roja 500g", "6200.0" },
+            { "Harina PAN 1kg", "4800.0" }
     };
 
     // Metodo principal
