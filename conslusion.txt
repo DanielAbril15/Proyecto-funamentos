@@ -1,0 +1,20 @@
+Lo que aprendí
+Con este proyecto mejoré mis habilidades en Java: aprendí a leer y escribir 
+archivos de texto (con File, Scanner y PrintWriter), a juntar datos de varios 
+archivos para sumar las ventas de cada vendedor y producto, y a ordenar los 
+resultados de mayor a menor con ArrayList y la interfaz Comparable. 
+También practiqué buenas costumbres de programación, como dividir el 
+código en partes, nombrar bien las variables y manejar errores.
+
+Cómo lo puedo usar en mi vida profesional
+Lo aprendido me sirve para procesar y unir datos de distintos sistemas, 
+generar reportes en CSV que ayuden a tomar decisiones en una empresa, 
+dividir problemas grandes en partes más pequeñas y automatizar tareas 
+repetitivas que manejan mucha información sin intervención manual.
+
+Dificultades
+Lo más difícil fue sumar correctamente los datos de muchos archivos de ventas, 
+asegurando que cada cifra quedara con su vendedor o producto correcto. 
+También costó ordenar los datos sin perder la relación entre cada nombre 
+y sus totales; lo resolví con clases auxiliares dentro del mismo archivo,
+ya que solo se permitía un número limitado de archivos .java.

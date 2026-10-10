@@ -1,62 +1,91 @@
-# Proyecto - Entrega 1 y 2
+# Proyecto - Sistema de Procesamiento de Ventas y Generacion de Reportes
 
-Programa en Java para la generacion de archivos planos de prueba y la consolidacion en memoria de las ventas de una empresa.
+Programa en Java para la generacion de archivos de prueba y el procesamiento, consolidacion y generacion de reportes ordenados de ventas.
+
+Desarrollado para la asignatura **Fundamentos de Programacion** (Politecnico Grancolombiano).
 
 ---
 
-## 1. Generador de Archivos: `GenerateInfoFiles` (Entrega 1)
+## Estructura del Proyecto
+
+El repositorio contiene exclusivamente dos clases con metodo `main`, ubicadas en la carpeta `src/`:
+
+1. **`src/GenerateInfoFiles.java`**: Generador de archivos de prueba pseudoaleatorios.
+2. **`src/main.java`**: Procesador de ventas y generador de reportes ordenados.
+
+Adicionalmente, se incluye en la raiz del proyecto:
+- **`conslusion.txt`**: Documento de reflexion sobre lo aprendido, aplicaciones profesionales y dificultades enfrentadas.
+
+---
+
+## 1. Generador de Archivos: `GenerateInfoFiles`
 
 ### Descripcion
-La clase `GenerateInfoFiles` genera de forma automatica los archivos necesarios para simular las ventas de una empresa:
-- `productos.txt`: Contiene el listado de productos disponibles (ID, nombre y precio unitario).
-- `vendedores.txt`: Contiene el listado de vendedores (tipo de documento, numero de documento, nombres y apellidos).
-- `ventas_<nombre>_<id>.txt`: Archivos individuales con las ventas registradas para cada vendedor.
+Genera de forma automatica y coherente los archivos de entrada requeridos por el sistema:
+- `productos.txt`: Catalogo de productos (`IDProducto;NombreProducto;PrecioPorUnidad`).
+- `vendedores.txt`: Registro de vendedores (`TipoDocumento;NumeroDocumento;Nombres;Apellidos`).
+- `ventas_<Nombre>_<ID>.txt`: Archivos individuales con las ventas registradas por cada vendedor (`IDProducto;Cantidad;`).
 
-### Metodos principales
-- `createProductsFile(int productsCount)`: Genera el archivo `productos.txt` con la cantidad de productos indicada.
-- `createSalesManInfoFile(int salesmanCount)`: Genera el archivo `vendedores.txt` con informacion coherente de vendedores.
-- `createSalesMenFile(int randomSalesCount, String name, long id)`: Genera el archivo de ventas individual para un vendedor dado.
+### Metodos requeridos implementados
+- `createProductsFile(int productsCount)`: Crea el archivo de productos.
+- `createSalesManInfoFile(int salesmanCount)`: Crea el archivo de vendedores.
+- `createSalesMenFile(int randomSalesCount, String name, long id)`: Crea el archivo de ventas individual para un vendedor dado.
 
 ### Como ejecutar `GenerateInfoFiles`
 
 #### Desde Eclipse
-1. Importar el proyecto: `File > Open Projects from File System` (o `Import > Existing Projects into Workspace`).
-2. Seleccionar la carpeta del proyecto.
-3. Abrir `src/GenerateInfoFiles.java`.
-4. Clic derecho sobre el archivo y seleccionar `Run As > Java Application`.
+1. Abrir el proyecto en Eclipse.
+2. Abrir el archivo `src/GenerateInfoFiles.java`.
+3. Hacer clic derecho y seleccionar `Run As > Java Application`.
 
 #### Desde la terminal
-Estando en la carpeta del proyecto:
+Estando en la raiz del proyecto:
 ```bash
 java src/GenerateInfoFiles.java
 ```
-Al terminar, los archivos generados apareceran en la carpeta raiz del proyecto.
 
 ---
 
-## 2. Procesador de Ventas: `main` (Entrega 2)
+## 2. Procesador y Generador de Reportes: `main`
 
 ### Descripcion
-La clase `main` se encarga de leer los archivos planos generados y procesar las ventas en memoria utilizando listas (`ArrayList`):
-- Lee `productos.txt` y almacena los IDs, nombres, precios y cantidades vendidas.
-- Lee `vendedores.txt` y almacena los documentos, nombres y dinero recaudado.
-- Explora la carpeta del proyecto y procesa cada archivo `ventas_*.txt`.
-- Para cada venta registrada, calcula el valor (`precio * cantidad`) y acumula el dinero recaudado al vendedor correspondiente y la cantidad de unidades vendidas al producto.
-- Muestra por consola un resumen detallado con el total de dinero de cada vendedor y las unidades vendidas por cada producto.
+Lee los archivos generados, consolida la informacion en memoria y produce los archivos de reporte finales solicitados:
 
-### Cuando ejecutarlo
-`main` debe ejecutarse **despues** de haber ejecutado `GenerateInfoFiles`, ya que requiere que los archivos `productos.txt`, `vendedores.txt` y `ventas_*.txt` existan previamente en la carpeta del proyecto.
+1. **Carga y consolidacion:**
+   - Lee `productos.txt` y `vendedores.txt`.
+   - Explora el directorio actual y procesa cada archivo `ventas_*.txt`.
+   - Acumula el dinero total recaudado por cada vendedor y la cantidad de unidades vendidas por producto.
+
+2. **Reporte de Vendedores (`reporte_vendedores.csv`):**
+   - Contiene a todos los vendedores con el dinero total recaudado.
+   - Formato por linea: `NombreCompleto;TotalDinero`
+   - **Orden:** De mayor a menor dinero recaudado (descendente).
+
+3. **Reporte de Productos (`reporte_productos.csv`):**
+   - Contiene los productos vendidos por cantidad.
+   - Formato por linea: `NombreProducto;Precio`
+   - **Orden:** De mayor a menor cantidad de unidades vendidas (descendente).
+
+### Requisito previo para la ejecucion
+`main` debe ejecutarse **despues** de `GenerateInfoFiles`, ya que requiere que los archivos `productos.txt`, `vendedores.txt` y `ventas_*.txt` existan en la carpeta del proyecto.
 
 ### Como ejecutar `main`
 
+#### Desde Eclipse
+1. Abrir el archivo `src/main.java`.
+2. Hacer clic derecho y seleccionar `Run As > Java Application`.
+3. Se mostrara el mensaje de finalizacion exitosa y el resumen en la consola, y se generaran los archivos `reporte_vendedores.csv` y `reporte_productos.csv` en el proyecto.
+
 #### Desde la terminal
-Estando en la carpeta del proyecto:
+Estando en la raiz del proyecto:
 ```bash
 java src/main.java
 ```
-*(O si ingresas a la carpeta `src/`: `cd src` y luego `java main.java`).*
 
-#### Desde Eclipse
-1. Abrir `src/main.java`.
-2. Clic derecho sobre el archivo y seleccionar `Run As > Java Application`.
-3. El resumen de ventas aparecera en la consola de Eclipse.
+---
+
+## Caracteristicas Tecnicas y Buenas Practicas
+- **Compatibilidad:** Java 8 o superior.
+- **Sin interrupcion:** Los programas se ejecutan de forma autonoma sin solicitar datos por consola al usuario.
+- **Documentacion:** Uso riguroso de comentarios de una sola linea (`//`), nombramiento claro de variables en camelCase y espaciado estructurado.
+- **Restriccion de archivos:** Se mantiene estrictamente el limite de unicamente dos archivos `.java` en el proyecto.

@@ -1,12 +1,19 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
+// Clase principal encargada de procesar las ventas y generar los reportes
 public class main {
 
-    // Nombres de los archivos principales
+    // Nombres de los archivos de entrada
     public static final String ARCHIVO_PRODUCTOS = "productos.txt";
     public static final String ARCHIVO_VENDEDORES = "vendedores.txt";
+
+    // Nombres de los archivos de salida de reportes
+    public static final String ARCHIVO_REPORTE_VENDEDORES = "reporte_vendedores.csv";
+    public static final String ARCHIVO_REPORTE_PRODUCTOS = "reporte_productos.csv";
 
     // Listas para almacenar la informacion de productos
     private static ArrayList<Long> idProductos = new ArrayList<Long>();
@@ -19,10 +26,11 @@ public class main {
     private static ArrayList<String> nombresVendedores = new ArrayList<String>();
     private static ArrayList<Double> ventasVendedores = new ArrayList<Double>();
 
+    // Constructor privado para evitar instanciacion
     private main() {
     }
 
-    // Carga y procesa las ventas
+    // Metodo principal para procesar ventas y generar reportes
     public static void main(String[] args) {
         try {
             System.out.println("Iniciando Carga y consolidacion en memoria...");
@@ -55,14 +63,23 @@ public class main {
                 }
             }
 
+            // 5. Generar archivo de reporte de vendedores ordenado por dinero recaudado
+            generarReporteVendedores(ARCHIVO_REPORTE_VENDEDORES);
+            System.out.println("\nArchivo de reporte de vendedores generado exitosamente: " + ARCHIVO_REPORTE_VENDEDORES);
+
+            // 6. Generar archivo de reporte de productos ordenado por cantidad vendida
+            generarReporteProductos(ARCHIVO_REPORTE_PRODUCTOS);
+            System.out.println("Archivo de reporte de productos generado exitosamente: " + ARCHIVO_REPORTE_PRODUCTOS);
+
+            System.out.println("\nProceso finalizado con exito.");
+
         } catch (Exception e) {
             System.out.println("Error durante la ejecucion: " + e.getMessage());
         }
     }
 
-    // lee el archivo productos.txt y llena las listas de productos.
+    // Lee el archivo productos.txt y llena las listas de productos
     // Formato por linea: IDProducto;NombreProducto;PrecioPorUnidadProducto
-
     public static void cargarProductos(String rutaArchivo) throws Exception {
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) {
@@ -90,10 +107,8 @@ public class main {
         lector.close();
     }
 
-    // Lee el archivo vendedores.txt y llena las listas de vendedores.
-    // Formato por linea:
-    // TipoDocumento;NumeroDocumento;NombresVendedor;ApellidosVendedor
-
+    // Lee el archivo vendedores.txt y llena las listas de vendedores
+    // Formato por linea: TipoDocumento;NumeroDocumento;NombresVendedor;ApellidosVendedor
     public static void cargarVendedores(String rutaArchivo) throws Exception {
         File archivo = new File(rutaArchivo);
         if (!archivo.exists()) {
@@ -121,8 +136,6 @@ public class main {
     }
 
     // Explora la carpeta del proyecto y procesa cada archivo de ventas
-    // (ventas_*.txt).
-
     public static void procesarArchivosVentas() throws Exception {
         File carpeta = new File(".");
         File[] archivos = carpeta.listFiles();
@@ -142,7 +155,7 @@ public class main {
         }
     }
 
-    // Procesa un archivo individual de ventas de un vendedor.
+    // Procesa un archivo individual de ventas de un vendedor
     // Primera linea: TipoDocumento;NumeroDocumento
     // Lineas siguientes: IDProducto;CantidadProducto;
     public static void procesarArchivoVenta(File archivo) throws Exception {
@@ -207,5 +220,88 @@ public class main {
         }
 
         lector.close();
+    }
+
+    // Genera el archivo CSV con los vendedores ordenados por dinero recaudado (mayor a menor)
+    public static void generarReporteVendedores(String rutaArchivo) throws Exception {
+        ArrayList<VendedorReporte> lista = new ArrayList<VendedorReporte>();
+
+        for (int i = 0; i < docVendedores.size(); i++) {
+            lista.add(new VendedorReporte(nombresVendedores.get(i), ventasVendedores.get(i)));
+        }
+
+        // Ordenar descendentemente por dinero recaudado
+        Collections.sort(lista);
+
+        File archivo = new File(rutaArchivo);
+        PrintWriter escritor = new PrintWriter(archivo);
+
+        for (int i = 0; i < lista.size(); i++) {
+            VendedorReporte v = lista.get(i);
+            escritor.println(v.nombre + ";" + v.dineroRecaudado);
+        }
+
+        escritor.close();
+    }
+
+    // Genera el archivo CSV con los productos vendidos ordenados por cantidad vendida (mayor a menor)
+    public static void generarReporteProductos(String rutaArchivo) throws Exception {
+        ArrayList<ProductoReporte> lista = new ArrayList<ProductoReporte>();
+
+        for (int i = 0; i < idProductos.size(); i++) {
+            int cantidad = cantidadesProductos.get(i);
+            if (cantidad > 0) {
+                lista.add(new ProductoReporte(nombresProductos.get(i), preciosProductos.get(i), cantidad));
+            }
+        }
+
+        // Ordenar descendentemente por cantidad vendida
+        Collections.sort(lista);
+
+        File archivo = new File(rutaArchivo);
+        PrintWriter escritor = new PrintWriter(archivo);
+
+        for (int i = 0; i < lista.size(); i++) {
+            ProductoReporte p = lista.get(i);
+            escritor.println(p.nombre + ";" + p.precio);
+        }
+
+        escritor.close();
+    }
+
+    // Clase auxiliar interna para ordenar y representar el reporte de un vendedor
+    private static class VendedorReporte implements Comparable<VendedorReporte> {
+        String nombre;
+        double dineroRecaudado;
+
+        VendedorReporte(String nombre, double dineroRecaudado) {
+            this.nombre = nombre;
+            this.dineroRecaudado = dineroRecaudado;
+        }
+
+        // Comparador para ordenar de mayor a menor por dinero recaudado
+        @Override
+        public int compareTo(VendedorReporte otro) {
+            return Double.compare(otro.dineroRecaudado, this.dineroRecaudado);
+        }
+    }
+
+    // Clase auxiliar interna para ordenar y representar el reporte de un producto
+    private static class ProductoReporte implements Comparable<ProductoReporte> {
+        String nombre;
+        double precio;
+        int cantidadVendida;
+
+        ProductoReporte(String nombre, double precio, int cantidadVendida) {
+            this.nombre = nombre;
+            this.precio = precio;
+            this.cantidadVendida = cantidadVendida;
+        }
+
+        // Comparador para ordenar de mayor a menor por cantidad vendida
+        @Override
+        public int compareTo(ProductoReporte otro) {
+            return Integer.compare(otro.cantidadVendida, this.cantidadVendida);
+        }
     }
 }
